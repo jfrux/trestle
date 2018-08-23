@@ -128,5 +128,7 @@ $(document).on('click', '[data-behavior="dialog"]', function(e) {
     modalClass: $(this).data('dialog-class')
   });
 
+  Trestle.activeDialog = dialog;
+
   dialog.load(url);
 });

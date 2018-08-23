@@ -21,7 +21,7 @@ Trestle.init(function(e, root) {
       // Reset submit buttons
       $(this).find(':submit').prop('disabled', false).removeClass('loading');
       $(this).removeData('trestle:submitButton');
-
+      console.warn("ajax:complete");
       var contentType = xhr.getResponseHeader("Content-Type");
 
       if (contentType && contentType.split(";")[0] == "text/html") {
@@ -48,11 +48,19 @@ Trestle.init(function(e, root) {
         var title = xhr.status + " (" + xhr.statusText + ")";
         Trestle.Dialog.showError(title, xhr.responseText);
       }
+      if (form.attr('data-remote')) {
+        try {
+          Trestle.activeDialog.hide();
+          Trestle.activeDialog.setContent(null);
+        } catch (e) {
+          console.warn(e);
+        }
+      }
     })
     .on('ajax:success', function(e, data, status, xhr) {
       var context = $(this).closest('[data-context]');
       var location = xhr.getResponseHeader("X-Trestle-Location");
-
+      console.warn("ajax:success");
       if (location) {
         // Retain current active tab
         location = location + document.location.hash;
