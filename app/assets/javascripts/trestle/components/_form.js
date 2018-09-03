@@ -10,6 +10,10 @@ Trestle.init(function(e, root) {
 
   form
     .on('ajax:send', function(e, xhr) {
+      console.warn("e:",e);
+      if ($(e.target).attr('data-toggle-link')) {
+        return;
+      }
       // Disable submit buttons
       $(this).find(':submit').prop('disabled', true);
 
@@ -18,6 +22,9 @@ Trestle.init(function(e, root) {
       if (button) { $(button).addClass('loading'); }
     })
     .on('ajax:complete', function(e, xhr, status) {
+      if ($(e.target).attr('data-toggle-link')) {
+        return;
+      }
       // Reset submit buttons
       $(this).find(':submit').prop('disabled', false).removeClass('loading');
       $(this).removeData('trestle:submitButton');
@@ -58,6 +65,9 @@ Trestle.init(function(e, root) {
       }
     })
     .on('ajax:success', function(e, data, status, xhr) {
+      if ($(e.target).attr('data-toggle-link')) {
+        return;
+      }
       var context = $(this).closest('[data-context]');
       var location = xhr.getResponseHeader("X-Trestle-Location");
       console.warn("ajax:success");
